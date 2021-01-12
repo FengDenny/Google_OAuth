@@ -70,3 +70,28 @@
   height: 8% !important;
   background-color: #f7f7f7 !important;
 }
+
+/* Alert */
+.alert {
+  position: fixed;
+  top: 169px;
+  left: 63.3%;
+  width: 400px;
+  height: 65px;
+  transform: translateX(-50%) !important;
+  z-index: 9999;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 1.5rem 3.5rem;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+}
+.alert--success {
+  background-color: #20bf6b;
+}
+.alert--error {
+  background-color: #eb4d4b;
+}
