@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { isAuth } from "../../utility/helper/helpers";
+import { showAlert } from "../../js/alerts";
 import axios from "axios";
 
 function Signup() {
@@ -37,17 +39,21 @@ function Signup() {
           email: "",
           password: "",
           buttonText: "Submitted",
-          success: true,
         });
+        // toast.success(res.data.message);
+        if (res.data.status === "success") {
+          showAlert("success", res.data.message);
+        }
       })
       .catch((err) => {
-        console.log("SIGN UP ERROR", err);
+        console.log("SIGN UP ERROR", err.response.data.message);
 
         setValues({
           ...values,
           buttonText: "Submit",
-          success: true,
         });
+
+        showAlert("error", err.response.data.message);
       });
   };
 
@@ -102,6 +108,11 @@ function Signup() {
     );
   };
 
-  return <div>{SignupForm()}</div>;
+  return (
+    <div>
+      {isAuth() ? <Redirect to='/protected' /> : null}
+      {SignupForm()}
+    </div>
+  );
 }
 export default Signup;
