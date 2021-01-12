@@ -3,7 +3,7 @@ const dotnev = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
 const AppError = require("./utility/appError");
-// const globalErrorHandler = require("./controller/globalErrorHandler");
+const GlobalErrorHandler = require("./controllers/errorController");
 const authRoute = require("./routes/auth");
 
 dotnev.config({ path: "./config/config.env" });
@@ -39,5 +39,8 @@ app.use("/api/v1/users", authRoute);
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
+
+// Global Error Handler for DB
+app.use(GlobalErrorHandler);
 
 module.exports = app;
