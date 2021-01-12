@@ -14,12 +14,7 @@ exports.signup = CatchAsync(async (req, res, next) => {
   const userEmail = await User.findOne({ email });
 
   if (userEmail) {
-    return next(
-      new AppError(
-        `${email} has been taken. Please signup with another email!`,
-        401
-      )
-    );
+    return next(new AppError(`${email} has been taken.`, 401));
   }
 
   const token = jwt.sign(
@@ -43,6 +38,7 @@ exports.signup = CatchAsync(async (req, res, next) => {
   sgMail.send(emailData).then((sent) => {
     //   console.log("SIGNUP EMAIL SENT", sent)
     return res.json({
+      status: "success",
       message: `Email has been sent to ${email}. Follow the instruction to activate your account. `,
     });
   });
@@ -77,6 +73,7 @@ exports.accountActivation = CatchAsync(async (req, res, next) => {
             );
           }
           return res.json({
+            status: "success",
             message: " Signed up succesfully! Please sign in!",
             user: newUser,
           });
@@ -110,6 +107,7 @@ exports.signin = CatchAsync(async (req, res, next) => {
       const { _id, name, email, role } = user;
 
       return res.json({
+        status: "success",
         token,
         user: { _id, name, email, role },
       });
