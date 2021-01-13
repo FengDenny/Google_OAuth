@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    salt: String,
+    salt: { type: String, select: false },
     role: {
       type: String,
       default: "subscriber",
