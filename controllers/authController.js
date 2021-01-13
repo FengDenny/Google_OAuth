@@ -2,6 +2,7 @@ const CatchAsync = require("./../utility/catchAsync");
 const AppError = require("./../utility/appError");
 const User = require("./../models/User");
 const jwt = require("jsonwebtoken");
+const jwtExpress = require("express-jwt");
 // must decalre dotenv inorder to sgMail to work
 const dotnev = require("dotenv");
 dotnev.config({ path: "./config/config.env" });
@@ -88,6 +89,7 @@ exports.signin = CatchAsync(async (req, res, next) => {
 
   await User.findOne({ email })
     .select("+hashed_password")
+    .select("+salt")
     .exec((err, user) => {
       if (err || !user) {
         return next(
@@ -112,4 +114,25 @@ exports.signin = CatchAsync(async (req, res, next) => {
         user: { _id, name, email, role },
       });
     });
+});
+
+// validate token
+// req.user._id
+exports.requiredSignIn = jwtExpress({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+});
+
+exports.admin = CatchAsync(async (req, res, next) => {
+  await User.findById({ _id: req.user._id }).exec((err, user) => {
+    if (err || !user) {
+      return next(new AppError("User does not exist", 400));
+    }
+
+    if (user.role !== "admin") {
+      return next(new AppError("Admin resources. Access denied.", 400));
+    }
+    req.profile = user;
+    next();
+  });
 });
