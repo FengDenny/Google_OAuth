@@ -40,9 +40,30 @@ function Navbar({ history }) {
               </li>
             </Fragment>
           )}
-          {isAuth() && (
+          {isAuth() && isAuth().role === "admin" && (
             <li className='nav-item'>
-              <span className='nav-link'> {isAuth().name}</span>
+              <NavLink
+                activeStyle={{
+                  borderBottom: "1px solid #db4437 ",
+                }}
+                exact
+                to='/protected-admin'
+              >
+                {isAuth().name}
+              </NavLink>
+            </li>
+          )}
+          {isAuth() && isAuth().role === "subscriber" && (
+            <li className='nav-item'>
+              <NavLink
+                activeStyle={{
+                  borderBottom: "1px solid #db4437 ",
+                }}
+                exact
+                to='/protected'
+              >
+                {isAuth().name}
+              </NavLink>
             </li>
           )}
           {isAuth() && (
