@@ -5,6 +5,7 @@ const cors = require("cors");
 const AppError = require("./utility/appError");
 const GlobalErrorHandler = require("./controllers/errorController");
 const authRoute = require("./routes/auth");
+const userRoute = require("./routes/user");
 
 dotnev.config({ path: "./config/config.env" });
 
@@ -34,6 +35,7 @@ if ((process.env.NODE_ENV = "development")) {
 
 // Routes
 app.use("/api/v1/users", authRoute);
+app.use("/api/v1/user", userRoute);
 
 // route middleware
 app.all("*", (req, res, next) => {
