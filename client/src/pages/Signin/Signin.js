@@ -4,7 +4,7 @@ import { authenticate, isAuth } from "../../utility/helper/helpers";
 import { showAlert } from "../../js/alerts";
 import axios from "axios";
 
-function Signin() {
+function Signin({ history }) {
   const [values, setValues] = useState({
     email: "Dfeng415@yahoo.com",
     password: "123456",
@@ -38,10 +38,12 @@ function Signin() {
             password: "",
             buttonText: "Submitted",
           });
-
-          if (res.data.status === "success") {
-            showAlert("success", `Hey ${res.data.user.name}, Welcome back!`);
-          }
+          // if (res.data.status === "success" ) {
+          //   showAlert("success", `Hey ${res.data.user.name}, Welcome back!`);
+          // }
+          isAuth() && isAuth().role === "admin"
+            ? history.push("/protected-admin")
+            : history.push("/protected");
         });
       })
 
