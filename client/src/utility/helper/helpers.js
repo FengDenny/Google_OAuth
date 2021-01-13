@@ -21,7 +21,7 @@ export const removeCookie = (key) => {
 
 // get from cookie such as stored token
 // useful when we need to make req to server with tokens
-export const getCookie = (key, value) => {
+export const getCookie = (key) => {
   if (window !== undefined) {
     return cookie.get(key);
   }
