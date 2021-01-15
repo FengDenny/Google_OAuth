@@ -4,6 +4,7 @@ const User = require("./../models/User");
 const jwt = require("jsonwebtoken");
 const jwtExpress = require("express-jwt");
 const _ = require("lodash");
+const { OAuth2Client } = require("google-auth-library");
 // must decalre dotenv inorder to sgMail to work
 const dotnev = require("dotenv");
 dotnev.config({ path: "./config/config.env" });
@@ -222,4 +223,59 @@ exports.resetPassword = CatchAsync(async (req, res, next) => {
       }
     );
   }
+});
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+exports.googleLogin = CatchAsync(async (req, res, next) => {
+  const { idToken } = req.body;
+
+  await client
+    .verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID })
+    .then((response) => {
+      // console.log("GOOGLE LOGIN RESPONSE", res)
+      const { email_verified, name, email } = response.payload;
+      if (email_verified) {
+        User.findOne({ email }).exec((err, user) => {
+          if (user) {
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+              expiresIn: "7d",
+            });
+            const { _id, email, role, name } = user;
+            return res.json({
+              status: "sucess",
+              message: "Google user saved",
+              token,
+              user: { _id, email, role, name },
+            });
+          } else {
+            let password = email + process.env.JWT_SECRET;
+            user = new User({ name, email, password });
+            user.save((err, data) => {
+              if (err) {
+                console.log("ERROR GOOGLE LOGIN ON USER SAVE", err);
+                return next(
+                  new AppError("User signup failed with Google", 400)
+                );
+              }
+              const token = jwt.sign(
+                { _id: user._id },
+                process.env.JWT_SECRET,
+                {
+                  expiresIn: "7d",
+                }
+              );
+              const { _id, email, role, name } = user;
+              return res.json({
+                status: "sucess",
+                message: "Google user saved",
+                token,
+                user: { _id, email, role, name },
+              });
+            });
+          }
+        });
+      } else {
+        return next(new AppError("Google login failed. Try again", 400));
+      }
+    });
 });
