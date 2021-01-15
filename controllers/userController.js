@@ -47,7 +47,11 @@ exports.update = CatchAsync(async (req, res, next) => {
       }
       updatedUser.hashed_password = undefined;
       updatedUser.salt = undefined;
-      res.json(updatedUser);
+      res.json({
+        status: "sucess",
+        message: "Profile updated successfully!",
+        updatedUser,
+      });
     });
   });
 });
