@@ -61,6 +61,7 @@ function Signin({ history }) {
   const SigninForm = () => {
     return (
       <form>
+        <h1>Welcome back!</h1>
         <div className='form-group'>
           <label htmlFor='email' className='form-label xsm'>
             Email
@@ -99,7 +100,11 @@ function Signin({ history }) {
   return (
     <div>
       {/* check if user is signed in  */}
-      {isAuth() ? <Redirect to='/protected' /> : null}
+      {isAuth() && isAuth().role === "admin" ? (
+        <Redirect to='/protected-admin' />
+      ) : isAuth() && isAuth().role === "subscriber" ? (
+        <Redirect to='/protected' />
+      ) : null}
       {SigninForm()}
     </div>
   );
