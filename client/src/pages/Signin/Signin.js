@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { authenticate, isAuth } from "../../utility/helper/helpers";
 import { showAlert } from "../../js/alerts";
 import axios from "axios";
+import Google from "../Google/Google";
 
 function Signin({ history }) {
   const [values, setValues] = useState({
@@ -17,6 +18,15 @@ function Signin({ history }) {
     // grab different values based on their name located in  values
     setValues({ ...values, [name]: event.target.value });
   };
+
+  const informParent = (res) => {
+    authenticate(res, () => {
+      isAuth() && isAuth().role === "admin"
+        ? history.push("/protected-admin")
+        : history.push("/protected");
+    });
+  };
+
   const handleSubmit = async (event) => {
     // stop the page from reloading
     event.preventDefault();
@@ -62,6 +72,7 @@ function Signin({ history }) {
     return (
       <form>
         <h1>Welcome back!</h1>
+        <Google informParent={informParent} />
         <div className='form-group'>
           <label htmlFor='email' className='form-label xsm'>
             Email
