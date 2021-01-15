@@ -1,7 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { isAuth, getCookie, logout } from "../../utility/helper/helpers";
+import {
+  isAuth,
+  getCookie,
+  logout,
+  updateUser,
+} from "../../utility/helper/helpers";
 import { showAlert } from "../../js/alerts";
 import axios from "axios";
 
@@ -67,15 +72,17 @@ function Protect({ history }) {
       .then((res) => {
         console.log("PROFILE UPDATED SUCCESSFULLY", res);
         console.log(res.data.message);
-        // clean state
-        setValues({
-          ...values,
-          buttonText: "Updated",
+        updateUser(res, () => {
+          // clean state
+          setValues({
+            ...values,
+            buttonText: "Updated",
+          });
+          // toast.success(res.data.message);
+          if (res.data.status === "success") {
+            showAlert("success", res.data.message);
+          }
         });
-        // toast.success(res.data.message);
-        if (res.data.status === "success") {
-          showAlert("success", res.data.message);
-        }
       })
       .catch((err) => {
         console.log("PROFILE UPDATEDERROR", err.response.data.message);
