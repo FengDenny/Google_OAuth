@@ -14,4 +14,12 @@ router.post("/account-activation", authController.accountActivation);
 //@route POST "/api/v1/users/signin"
 router.post("/signin", authController.signin);
 
+// @desc Forgot reset password
+//@route POST "/api/v1/users/forgot-password"
+router.put("/forgot-password", authController.forgotPassword);
+
+// @desc   reset password
+//@route POST "/api/v1/users/reset-password"
+router.put("/reset-password", authController.resetPassword);
+
 module.exports = router;
