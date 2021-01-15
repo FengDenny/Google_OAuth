@@ -110,7 +110,11 @@ function Signup() {
 
   return (
     <div>
-      {isAuth() ? <Redirect to='/protected' /> : null}
+      {isAuth() && isAuth().role === "admin" ? (
+        <Redirect to='/protected-admin' />
+      ) : isAuth() && isAuth().role === "subscriber" ? (
+        <Redirect to='/protected' />
+      ) : null}
       {SignupForm()}
     </div>
   );
