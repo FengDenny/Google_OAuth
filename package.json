@@ -25,7 +25,8 @@
     "lodash": "^4.17.20",
     "mongoose": "^5.11.10",
     "mongoose-connect": "0.0.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
