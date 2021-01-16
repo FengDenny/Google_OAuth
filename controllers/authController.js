@@ -288,7 +288,7 @@ exports.facebookLogin = CatchAsync(async (req, res, next) => {
   const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
 
   return fetch(url, {
-    method: "GET",
+    method: "POST",
   })
     .then((response) => response.json())
     .then((response) => {
@@ -302,7 +302,7 @@ exports.facebookLogin = CatchAsync(async (req, res, next) => {
           const { _id, email, role, name } = user;
           return res.json({
             status: "sucess",
-            message: "Google user saved",
+            message: "Faacebook user saved",
             token,
             user: { _id, email, role, name },
           });
