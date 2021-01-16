@@ -26,4 +26,8 @@ router.put("/reset-password", authController.resetPassword);
 //@route POST "/api/v1/users/google-login"
 router.post("/google-login", authController.googleLogin);
 
+// @desc   Facebook login
+//@route POST "/api/v1/users/facebook-login"
+router.post("/facebok-login", authController.facebookLogin);
+
 module.exports = router;
