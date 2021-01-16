@@ -74,7 +74,7 @@ function Signin({ history }) {
       <form>
         <h1>Welcome back!</h1>
         <Google informParent={informParent} />
-        {/* <Facebook informParent={informParent} /> */}
+        <Facebook informParent={informParent} />
         <div className='form-group'>
           <label htmlFor='email' className='form-label xsm'>
             Email
