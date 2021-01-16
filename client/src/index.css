@@ -107,10 +107,11 @@ form {
 .alert--error {
   background-color: #eb4d4b;
 }
-
-.facebook-span {
+/* Google button */
+.google-span {
   padding: 0 3px;
 }
-.google-span {
+/* Facebook button */
+.fa {
   padding: 0 3px;
 }
