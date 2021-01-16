@@ -4,6 +4,7 @@ import { authenticate, isAuth } from "../../utility/helper/helpers";
 import { showAlert } from "../../js/alerts";
 import axios from "axios";
 import Google from "../Google/Google";
+import Facebook from "../Facebook/Facebook";
 
 function Signin({ history }) {
   const [values, setValues] = useState({
@@ -73,6 +74,7 @@ function Signin({ history }) {
       <form>
         <h1>Welcome back!</h1>
         <Google informParent={informParent} />
+        {/* <Facebook informParent={informParent} /> */}
         <div className='form-group'>
           <label htmlFor='email' className='form-label xsm'>
             Email
