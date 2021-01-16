@@ -137,3 +137,8 @@ a {
 .padding {
   padding: 0 10px;
 }
+
+/* width */
+.width {
+  width: 324px !important;
+}
