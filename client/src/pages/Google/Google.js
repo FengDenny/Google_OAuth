@@ -37,8 +37,8 @@ function Google({ informParent = (i) => i }) {
               disabled={renderProps.disabled}
               className='btn-primary xsm'
             >
-              <FontAwesomeIcon icon={faGoogle} className='google-icon' /> Login
-              with Google
+              <FontAwesomeIcon icon={faGoogle} className='google-icon' />
+              <span className='google-span'>Login with Google</span>
             </button>
           </div>
         )}
