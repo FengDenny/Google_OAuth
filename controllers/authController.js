@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const jwtExpress = require("express-jwt");
 const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
+const fetch = require("node-fetch");
 // must decalre dotenv inorder to sgMail to work
 const dotnev = require("dotenv");
 dotnev.config({ path: "./config/config.env" });
@@ -277,5 +278,60 @@ exports.googleLogin = CatchAsync(async (req, res, next) => {
       } else {
         return next(new AppError("Google login failed. Try again", 400));
       }
+    });
+});
+
+exports.facebookLogin = CatchAsync(async (req, res, next) => {
+  console.log("FACEBOOK LOGIN REQ BODY", req.body);
+  const { userID, accessToken } = req.body;
+
+  const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+
+  return fetch(url, {
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      const { email, name } = response;
+      User.findOne({ email }).exec((err, user) => {
+        if (user) {
+          // user already exist on our database
+          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+          });
+          const { _id, email, role, name } = user;
+          return res.json({
+            status: "sucess",
+            message: "Google user saved",
+            token,
+            user: { _id, email, role, name },
+          });
+        } else {
+          // signing up for first time
+          let password = email + process.env.JWT_SECRET;
+          user = new User({ name, email, password });
+          user.save((err, data) => {
+            if (err) {
+              console.log("ERROR FACEBOOK LOGIN ON USER SAVE", err);
+              return next(
+                new AppError("User signup failed with Facebook", 400)
+              );
+            }
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+              expiresIn: "7d",
+            });
+            const { _id, email, role, name } = user;
+            return res.json({
+              status: "sucess",
+              message: "Facebook user saved",
+              token,
+              user: { _id, email, role, name },
+            });
+          });
+        }
+      });
+    })
+    .catch((error) => {
+      return next(new AppError("Facebook login failed. Try again", 400));
     });
 });
