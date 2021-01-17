@@ -95,9 +95,7 @@ exports.signin = CatchAsync(async (req, res, next) => {
     .select("+salt")
     .exec((err, user) => {
       if (err || !user) {
-        return next(
-          new AppError(`${email} does not exist. Please signup.`, 400)
-        );
+        return next(new AppError("Email does not exist. Please signup.", 400));
       }
 
       // authenticate
