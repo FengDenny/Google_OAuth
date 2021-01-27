@@ -18,7 +18,7 @@ function ForgotPassword() {
   const handleSubmit = async (event) => {
     // stop the page from reloading
     event.preventDefault();
-    const url = `${process.env.REACT_APP_API}/forgot-password`;
+    const url = `/api/v1/users/forgot-password`;
     const data = { email };
     // change button text when form is being submitted
     setValues({ ...values, buttonText: "Submitting" });

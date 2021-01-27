@@ -10,7 +10,7 @@ library.add(faGoogle);
 function Google({ informParent = (i) => i }) {
   const responseGoogle = (res) => {
     console.log(res.tokenId);
-    const url = `${process.env.REACT_APP_API}/google-login`;
+    const url = `/api/v1/users/google-login`;
     const data = { idToken: res.tokenId };
     axios
       .post(url, data)

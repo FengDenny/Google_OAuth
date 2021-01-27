@@ -28,7 +28,7 @@ function Admin({ history }) {
   const loadProfile = () => {
     axios({
       method: "GET",
-      url: `${process.env.REACT_APP_API_USER}/${isAuth()._id}`,
+      url: `/api/v1/user/${isAuth()._id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -63,7 +63,7 @@ function Admin({ history }) {
     // get request from backend
     await axios({
       method: "PUT",
-      url: `${process.env.REACT_APP_API_USER}/admin/update`,
+      url: `/api/v1/user/admin/update`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

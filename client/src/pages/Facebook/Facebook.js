@@ -9,7 +9,7 @@ import axios from "axios";
 function Facebook({ informParent = (i) => i }) {
   const responseFacebook = (res) => {
     console.log(res);
-    const url = `${process.env.REACT_APP_API}/facebok-login`;
+    const url = `/api/v1/users/facebok-login`;
     const data = { userID: res.userID, accessToken: res.accessToken };
     axios
       .post(url, data)

@@ -31,7 +31,7 @@ function Signin({ history }) {
   const handleSubmit = async (event) => {
     // stop the page from reloading
     event.preventDefault();
-    const url = `${process.env.REACT_APP_API}/signin`;
+    const url = `/api/v1/users/signin`;
     const data = { email, password };
     // change button text when form is being submitted
     setValues({ ...values, buttonText: "Submitting" });

@@ -27,7 +27,7 @@ function Activate({ match }) {
   const handleSubmit = async (event) => {
     // stop the page from reloading
     event.preventDefault();
-    const url = `${process.env.REACT_APP_API}/account-activation`;
+    const url = `/api/v1/users/account-activation`;
     const data = { token };
     // get request from backend
     await axios

@@ -32,7 +32,7 @@ function ResetPassword({ match }) {
   const handleSubmit = async (event) => {
     // stop the page from reloading
     event.preventDefault();
-    const url = `${process.env.REACT_APP_API}/reset-password`;
+    const url = `/api/v1/users/reset-password`;
     const data = { newPassword, resetPasswordLink: token };
     // change button text when form is being submitted
     setValues({ ...values, buttonText: "Resetting" });
