@@ -1,9 +1,6 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const app = require("./app");
-const fs = require("fs");
-const https = require("https");
-const path = require("path");
 
 // to catch exceptions
 process.on("uncaughtException", (err) => {
@@ -19,12 +16,6 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-//  For localhost https certificate verification access (development only)
-const certOptions = {
-  key: fs.readFileSync(path.resolve("./config/server.key")),
-  cert: fs.readFileSync(path.resolve("./config/server.crt")),
-};
-
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -37,9 +28,7 @@ mongoose
   );
 
 const port = process.env.PORT || 3001;
-const server = https.createServer(certOptions, app).listen(port, () => {
-  console.log(`App is running on port ${port}`);
-});
+app.listen(port, console.log(`App is running on port ${port}`));
 
 // to catch rejection
 process.on("unhandledRejection", (err) => {
